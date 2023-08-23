@@ -170,6 +170,13 @@ cityListEl.addEventListener('click', function (event) {
     console.log(elIndex);
     var cords = cityStorage[elIndex].cords;
     var queryURLmulti = apiURLmulti + cords[1] + '&lon=' + cords[0] + '&appid=' + keyAPI;
+    $(todayEl).children().eq(1).html('');
+    $('#day2-forecast').html('');
+    $('#day3-forecast').html('');
+    $('#day4-forecast').html('');
+    $('#day5-forecast').html('');
+    $('#day6-forecast').html('');
     getValues(queryURLmulti, cords);
     // need to clear old values as new ones are printed.
 })
+
