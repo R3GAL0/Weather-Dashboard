@@ -34,22 +34,19 @@ btnEl.addEventListener("click", function () {
     var searchFor = cityEl.value;
     // searchFor = 'Toronto'; // for ease of use in development
     var queryURL = apiURL + searchFor + '&appid=' + keyAPI; // use for one day request
-    console.log(queryURL);
     fetch(queryURL)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             // obtain coords
-            console.log(data);
             var cords = [data.coord.lon, data.coord.lat, data.name];
-            console.log('cords from 1day: ' + cords);
             // localStorage.setItem('coordinates', JSON.stringify(cords));
             var queryURLmulti = apiURLmulti + cords[1] + '&lon=' + cords[0] + '&appid=' + keyAPI;
             getValues(queryURLmulti, cords);
 
         });
-        
+
     // update prev searched cities list
     // makeList(cityStorage);
 });
@@ -66,12 +63,19 @@ function getValues(queryURLmulti, cords) {
         })
         .then(function (data) {
             // display results
-            console.log(data.list);
             // ------------------------------------------------------------------
             // Day 0
             today = dayjs().format(' (MM/DD/YYYY)');
             // todayEl.children.eq(0).textContent = searchFor + today;
-            console.log(cords[2]);
+
+            // empty old elements
+            $(todayEl).children().eq(1).html('');
+            $('#day2-forecast').html('');
+            $('#day3-forecast').html('');
+            $('#day4-forecast').html('');
+            $('#day5-forecast').html('');
+            $('#day6-forecast').html('');
+
             $(todayEl).children().eq(0).text(cords[2] + today);
             $(todayEl).children().eq(1).append('<li>Cloud Cover: ' + data.list[0].weather[0].description + '</li>');
             $(todayEl).children().eq(1).append('<li>Temp: ' + data.list[0].main.temp + ' °K</li>');
@@ -165,17 +169,10 @@ function getValues(queryURLmulti, cords) {
 }
 
 
-cityListEl.addEventListener('click', function (event) {    
-    var elIndex = event.target.getAttribute('data-index') ;
-    console.log(elIndex);
+cityListEl.addEventListener('click', function (event) {
+    var elIndex = event.target.getAttribute('data-index');
     var cords = cityStorage[elIndex].cords;
     var queryURLmulti = apiURLmulti + cords[1] + '&lon=' + cords[0] + '&appid=' + keyAPI;
-    $(todayEl).children().eq(1).html('');
-    $('#day2-forecast').html('');
-    $('#day3-forecast').html('');
-    $('#day4-forecast').html('');
-    $('#day5-forecast').html('');
-    $('#day6-forecast').html('');
     getValues(queryURLmulti, cords);
     // need to clear old values as new ones are printed.
 })
