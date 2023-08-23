@@ -33,33 +33,6 @@ makeList(cityStorage);
 btnEl.addEventListener("click", function () {
     var searchFor = cityEl.value;
     // searchFor = 'Toronto'; // for ease of use in development
-    // make api request
-    // var queryURLGeo = geoURL + searchFor + '&appid=' + keyAPI;
-    // console.log('GeoURL= ' + queryURLGeo);
-    // var lat = 40;
-    // var lon = -40;
-    // // get coords from fetch
-    // var cords = [];
-    // fetch(queryURLGeo)
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (data) {
-    //         // retrieve coords
-    //         var cords = [data[0].lat, data[0].lon];
-    //         // console.log('see this?' + data);
-    //         // cords[0] = ;
-    //         console.log(data[0].lat);
-    //         // cords[1] = ;
-    //         console.log('cords: ' + cords);
-    //         localStorage.setItem('coordinates', cords);
-    //         return cords;
-    //     });
-    // // var cords = JSON.parse(localStorage.getItem('coordinates'));
-    // console.log('what about this?' + cords);
-
-
-    // var queryURLmulti = apiURLmulti + lat + '&lon=' + lon + '&appid=' + keyAPI;
     var queryURL = apiURL + searchFor + '&appid=' + keyAPI; // use for one day request
     console.log(queryURL);
     fetch(queryURL)
@@ -72,16 +45,11 @@ btnEl.addEventListener("click", function () {
             var cords = [data.coord.lon, data.coord.lat, data.name];
             console.log('cords from 1day: ' + cords);
             // localStorage.setItem('coordinates', JSON.stringify(cords));
-            var queryURLmulti = apiURLmulti + cords[0] + '&lon=' + cords[1] + '&appid=' + keyAPI;
+            var queryURLmulti = apiURLmulti + cords[1] + '&lon=' + cords[0] + '&appid=' + keyAPI;
             getValues(queryURLmulti, cords);
 
         });
-    // var cords = JSON.parse(localStorage.getItem('coordinates'))
-    // console.log('outside fetch ' + cords);
-
-    // console.log(queryURLmulti);
-
-
+        
     // update prev searched cities list
     // makeList(cityStorage);
 });
