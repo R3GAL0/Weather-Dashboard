@@ -30,14 +30,9 @@ function makeList(cityStorage) {
 }
 makeList(cityStorage);
 
-
-// search function
-// api call
-// display api info
-
 btnEl.addEventListener("click", function () {
     var searchFor = cityEl.value;
-    searchFor = 'Toronto'; // for ease of use in development
+    // searchFor = 'Toronto'; // for ease of use in development
     // make api request
     // var queryURLGeo = geoURL + searchFor + '&appid=' + keyAPI;
     // console.log('GeoURL= ' + queryURLGeo);
@@ -72,23 +67,15 @@ btnEl.addEventListener("click", function () {
             return response.json();
         })
         .then(function (data) {
-            // display results
+            // obtain coords
             console.log(data);
-            today = dayjs().format(' (MM/DD/YYYY)');
-            console.log(today);
-            // todayEl.children.eq(0).textContent = searchFor + today;
-            $(todayEl).children().eq(0).text(searchFor + today);
-            $(todayEl).children().eq(1).append('<li>Cloud Cover: ' + data.weather[0].description + '</li>');
-            $(todayEl).children().eq(1).append('<li>Temp: ' + data.main.temp + ' °K</li>');
-            $(todayEl).children().eq(1).append('<li>Wind: ' + data.wind.speed + ' m/s</li>');
-            $(todayEl).children().eq(1).append('<li>Humidity: ' + data.main.humidity + ' %</li>');
-            var cords = [data.coord.lon, data.coord.lat];
+            var cords = [data.coord.lon, data.coord.lat, data.name];
             console.log('cords from 1day: ' + cords);
+            localStorage.setItem('coordinates', JSON.stringify(cords));
         });
+    var cords = JSON.parse(localStorage.getItem('coordinates'))
+    console.log('outside fetch ' + cords);
 
-    // var cords = [cityStorage[cityStorage.length].cords[0], cityStorage[cityStorage.length].cords[1]];
-    var cords = [-79.4163, 43.7001];
-    console.log(cords);
     var queryURLmulti = apiURLmulti + cords[0] + '&lon=' + cords[1] + '&appid=' + keyAPI;
     console.log(queryURLmulti);
     fetch(queryURLmulti)
@@ -102,8 +89,8 @@ btnEl.addEventListener("click", function () {
             // Day 0
             today = dayjs().format(' (MM/DD/YYYY)');
             // todayEl.children.eq(0).textContent = searchFor + today;
-            console.log(searchFor);
-            $(todayEl).children().eq(0).text(searchFor + today);
+            console.log(cords[2]);
+            $(todayEl).children().eq(0).text(cords[2] + today);
             $(todayEl).children().eq(1).append('<li>Cloud Cover: ' + data.list[0].weather[0].description + '</li>');
             $(todayEl).children().eq(1).append('<li>Temp: ' + data.list[0].main.temp + ' °K</li>');
             $(todayEl).children().eq(1).append('<li>Wind: ' + data.list[0].wind.speed + ' m/s</li>');
@@ -149,19 +136,44 @@ btnEl.addEventListener("click", function () {
 
             // store results
             var cityStorageTemp = {
-                city: searchFor,
+                city: cords[2],
                 cords: cords,
                 day1: {
-                    clouds: data.weather[0].description,
-                    temp: data.main.temp,
-                    wind: data.wind.speed,
-                    humidity: data.main.humidity,
+                    clouds: data.list[0].weather[0].description,
+                    temp: data.list[0].main.temp,
+                    wind: data.list[0].wind.speed,
+                    humidity: data.list[0].main.humidity,
                 },
-                day2: 0,
-                day3: 0,
-                day4: 0,
-                day5: 0,
-                day6: 0,
+                day2: {
+                    clouds: data.list[4].weather[0].description,
+                    temp: data.list[4].main.temp,
+                    wind: data.list[4].wind.speed,
+                    humidity: data.list[4].main.humidity,
+                },
+                day3: {
+                    clouds: data.list[12].weather[0].description,
+                    temp: data.list[12].main.temp,
+                    wind: data.list[12].wind.speed,
+                    humidity: data.list[12].main.humidity,
+                },
+                day4: {
+                    clouds: data.list[20].weather[0].description,
+                    temp: data.list[20].main.temp,
+                    wind: data.list[20].wind.speed,
+                    humidity: data.list[20].main.humidity,
+                },
+                day5: {
+                    clouds: data.list[28].weather[0].description,
+                    temp: data.list[28].main.temp,
+                    wind: data.list[28].wind.speed,
+                    humidity: data.list[28].main.humidity,
+                },
+                day6: {
+                    clouds: data.list[36].weather[0].description,
+                    temp: data.list[36].main.temp,
+                    wind: data.list[36].wind.speed,
+                    humidity: data.list[36].main.humidity,
+                },
             }
             cityStorage.push(cityStorageTemp);
             localStorage.setItem('cityStorage', JSON.stringify(cityStorage));
@@ -174,3 +186,5 @@ btnEl.addEventListener("click", function () {
 });
 
 // if user performs a search refresh the page
+
+// populate list from storage
