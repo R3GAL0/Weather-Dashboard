@@ -14,7 +14,7 @@ var cityStorage = JSON.parse(localStorage.getItem('cityStorage')) || [];
 
 //  http://api.openweathermap.org/geo/1.0/direct?q=Toronto&limit=1&appid=000d26729d4f39b6f39ce11ee8904c9b
 var apiURL = 'https://api.openweathermap.org/data/2.5/weather?q='; // one day request
-var apiURLmulti = 'http://api.openweathermap.org/data/2.5/forecast?lat='; // multiday request
+var apiURLmulti = 'https://api.openweathermap.org/data/2.5/forecast?lat='; // multiday request
 // var geoURL = 'http://api.openweathermap.org/geo/1.0/direct?limit=1&q='; // for coords
 
 function makeList(cityStorage) {
