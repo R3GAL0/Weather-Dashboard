@@ -163,3 +163,13 @@ function getValues(queryURLmulti, cords) {
         });
 
 }
+
+
+cityListEl.addEventListener('click', function (event) {    
+    var elIndex = event.target.getAttribute('data-index') ;
+    console.log(elIndex);
+    var cords = cityStorage[elIndex].cords;
+    var queryURLmulti = apiURLmulti + cords[1] + '&lon=' + cords[0] + '&appid=' + keyAPI;
+    getValues(queryURLmulti, cords);
+    // need to clear old values as new ones are printed.
+})
