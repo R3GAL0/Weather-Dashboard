@@ -6,7 +6,7 @@
 
 ## Description
 
-An app to show you the weather at any city in the world. It shows you the weather today and for the next 5 days afterwards. Note: You need to double click search to get your search results. Also, previously searched does not repopulate results at this time.
+An app to show you the weather at any city in the world. It shows you the weather today and for the next 5 days afterwards. Note: Previously searched does not repopulate results at this time.
 
 <img src='./assets/images/img1.JPG' alt='Image of the website'/>
 

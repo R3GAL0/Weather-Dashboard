@@ -24,7 +24,7 @@ function makeList(cityStorage) {
     for (var i = 0; i < cityStorage.length; i++) {
         var li = document.createElement("li");
         li.textContent = cityStorage[i].city;
-        li.setAttribute('data-cityIndex', cityStorage[i].city);
+        li.setAttribute('data-index', i);
         cityListEl.appendChild(li);
     }
 }
@@ -71,13 +71,27 @@ btnEl.addEventListener("click", function () {
             console.log(data);
             var cords = [data.coord.lon, data.coord.lat, data.name];
             console.log('cords from 1day: ' + cords);
-            localStorage.setItem('coordinates', JSON.stringify(cords));
-        });
-    var cords = JSON.parse(localStorage.getItem('coordinates'))
-    console.log('outside fetch ' + cords);
+            // localStorage.setItem('coordinates', JSON.stringify(cords));
+            var queryURLmulti = apiURLmulti + cords[0] + '&lon=' + cords[1] + '&appid=' + keyAPI;
+            getValues(queryURLmulti, cords);
 
-    var queryURLmulti = apiURLmulti + cords[0] + '&lon=' + cords[1] + '&appid=' + keyAPI;
-    console.log(queryURLmulti);
+        });
+    // var cords = JSON.parse(localStorage.getItem('coordinates'))
+    // console.log('outside fetch ' + cords);
+
+    // console.log(queryURLmulti);
+
+
+    // update prev searched cities list
+    // makeList(cityStorage);
+});
+
+// if user performs a search refresh the page
+
+// populate list from storage
+
+
+function getValues(queryURLmulti, cords) {
     fetch(queryURLmulti)
         .then(function (response) {
             return response.json();
@@ -104,28 +118,28 @@ btnEl.addEventListener("click", function () {
             $('#day2-forecast').append('<li>Wind: ' + data.list[4].wind.speed + ' m/s</li>');
             $('#day2-forecast').append('<li>Humidity: ' + data.list[4].main.humidity + ' %</li>');
 
-            
+
             var date = dayjs().add(1, 'day').format('MM/DD/YYYY');
             $('#day3-forecast').append('<li>' + dayjs.unix(data.list[12].dt).format('MM/DD/YYYY') + '</li>');
             $('#day3-forecast').append('<li>Cloud Cover: ' + data.list[12].weather[0].description + '</li>');
             $('#day3-forecast').append('<li>Temp: ' + data.list[12].main.temp + ' °K</li>');
             $('#day3-forecast').append('<li>Wind: ' + data.list[12].wind.speed + ' m/s</li>');
             $('#day3-forecast').append('<li>Humidity: ' + data.list[12].main.humidity + ' %</li>');
-            
+
             var date = dayjs().add(1, 'day').format('MM/DD/YYYY');
             $('#day4-forecast').append('<li>' + dayjs.unix(data.list[20].dt).format('MM/DD/YYYY') + '</li>');
             $('#day4-forecast').append('<li>Cloud Cover: ' + data.list[20].weather[0].description + '</li>');
             $('#day4-forecast').append('<li>Temp: ' + data.list[20].main.temp + ' °K</li>');
             $('#day4-forecast').append('<li>Wind: ' + data.list[20].wind.speed + ' m/s</li>');
             $('#day4-forecast').append('<li>Humidity: ' + data.list[20].main.humidity + ' %</li>');
-            
+
             var date = dayjs().add(1, 'day').format('MM/DD/YYYY');
             $('#day5-forecast').append('<li>' + dayjs.unix(data.list[28].dt).format('MM/DD/YYYY') + '</li>');
             $('#day5-forecast').append('<li>Cloud Cover: ' + data.list[28].weather[0].description + '</li>');
             $('#day5-forecast').append('<li>Temp: ' + data.list[28].main.temp + ' °K</li>');
             $('#day5-forecast').append('<li>Wind: ' + data.list[28].wind.speed + ' m/s</li>');
             $('#day5-forecast').append('<li>Humidity: ' + data.list[28].main.humidity + ' %</li>');
-            
+
             var date = dayjs().add(1, 'day').format('MM/DD/YYYY');
             $('#day6-forecast').append('<li>' + dayjs.unix(data.list[36].dt).format('MM/DD/YYYY') + '</li>');
             $('#day6-forecast').append('<li>Cloud Cover: ' + data.list[36].weather[0].description + '</li>');
@@ -180,11 +194,4 @@ btnEl.addEventListener("click", function () {
 
         });
 
-
-    // update prev searched cities list
-    // makeList(cityStorage);
-});
-
-// if user performs a search refresh the page
-
-// populate list from storage
+}
