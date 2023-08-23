@@ -1,4 +1,4 @@
-# Work Day Schedueler
+# Weather Dashboard
 
 [Challenge 6 for Max Walent]
 
