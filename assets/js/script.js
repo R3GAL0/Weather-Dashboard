@@ -17,6 +17,7 @@ var apiURL = 'https://api.openweathermap.org/data/2.5/weather?q='; // one day re
 var apiURLmulti = 'https://api.openweathermap.org/data/2.5/forecast?lat='; // multiday request
 // var geoURL = 'http://api.openweathermap.org/geo/1.0/direct?limit=1&q='; // for coords
 
+// makes the side bar of prev searched items
 function makeList(cityStorage) {
     if (cityStorage.length == 0) {
         return;
@@ -30,6 +31,7 @@ function makeList(cityStorage) {
 }
 makeList(cityStorage);
 
+// the search button
 btnEl.addEventListener("click", function () {
     var searchFor = cityEl.value;
     // searchFor = 'Toronto'; // for ease of use in development
@@ -55,7 +57,7 @@ btnEl.addEventListener("click", function () {
 
 // populate list from storage
 
-
+// gets the weather data from supplied url and coordinates, clears the html elements, then populates the elemetns
 function getValues(queryURLmulti, cords) {
     fetch(queryURLmulti)
         .then(function (response) {
@@ -168,7 +170,7 @@ function getValues(queryURLmulti, cords) {
 
 }
 
-
+// recalls old weather data
 cityListEl.addEventListener('click', function (event) {
     var elIndex = event.target.getAttribute('data-index');
     var cords = cityStorage[elIndex].cords;
